@@ -18,7 +18,6 @@ import { generateRandomPositionVectors } from '@/helpers/random-position-generat
 import { Environment, PerspectiveCamera, View } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { CuboidCollider, Physics } from '@react-three/rapier';
-import Image from 'next/legacy/image';
 import { useRef, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { Mesh } from 'three';
@@ -47,11 +46,7 @@ const Homepage = () => {
 								<PlateWithScreenModel
 									scale={5}
 									showHidden={showHidden}
-									position={[
-										randomPositions[0].x,
-										randomPositions[0].y,
-										randomPositions[0].z,
-									]}
+									position={[randomPositions[0].x, randomPositions[0].y, -1]}
 								/>
 							)}
 						/>

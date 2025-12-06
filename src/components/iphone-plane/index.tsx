@@ -22,7 +22,7 @@ const IphonePlane = forwardRef<Mesh | null>((_props, ref) => {
 
 	return (
 		<>
-			<Plane args={[width, height]} position={[0, 0, 5]}>
+			<Plane args={[width * 1.1, height * 1.1]} position={[0, 0, 5]}>
 				<meshStandardMaterial map={texture} transparent />
 			</Plane>
 			<Box
