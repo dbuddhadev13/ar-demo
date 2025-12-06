@@ -1,14 +1,13 @@
 import { Gltf } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { BallCollider, RapierRigidBody, RigidBody } from '@react-three/rapier';
-import { RefObject, useRef, useState } from 'react';
+import { ReactNode, RefObject, useRef, useState } from 'react';
 import { Box3, Object3D } from 'three';
 import { IphonePlaneRef } from '../iphone-plane';
 import { useConstantSpeed } from '../use-constant-speed';
 
 type Props = {
-	src: string;
-	scale?: number;
+	model: ReactNode;
 	initialPos: [number, number, number];
 	speed?: number;
 	planeRef: RefObject<IphonePlaneRef | null>;
@@ -18,8 +17,7 @@ type Props = {
 const BALL_RADIUS = 1.75;
 
 const BouncingGLB = ({
-	src,
-	scale = 2.5,
+	model,
 	initialPos,
 	speed = 1.5,
 	planeRef,
@@ -75,7 +73,7 @@ const BouncingGLB = ({
 			<BallCollider args={[BALL_RADIUS]} />
 
 			<group ref={glbGroupRef}>
-				<Gltf src={src} scale={scale} />
+				{model}
 				{renderIndicator?.(intersects)}
 			</group>
 		</RigidBody>
