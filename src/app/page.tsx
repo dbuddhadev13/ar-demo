@@ -9,12 +9,18 @@ import ProductView from '@/components/product-view';
 import { Box, Environment, PerspectiveCamera, View } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import Image from 'next/legacy/image';
-import { useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 const Homepage = () => {
 	const iphonePlaneRefInstance = useRef<IphonePlaneRef>(null);
 	const baseCanvasContainerRef = useRef<HTMLDivElement>(null!);
+	const [ready, setReady] = useState(false);
 
+	useLayoutEffect(() => {
+		// micro-delay lets the root + views mount in the right order
+		const id = requestAnimationFrame(() => setReady(true));
+		return () => cancelAnimationFrame(id);
+	}, []);
 	return (
 		<div
 			className="flex h-full w-full flex-col gap-10 p-10"
@@ -211,17 +217,19 @@ const Homepage = () => {
 				</div>
 			</div>
 			<ContactForm />
-			<Canvas
-				gl={{
-					antialias: false,
-					preserveDrawingBuffer: false,
-					powerPreference: 'high-performance',
-				}}
-				eventSource={baseCanvasContainerRef}
-				className="fixed! top-0 left-0 z-0 h-full w-full"
-			>
-				<View.Port />
-			</Canvas>
+			{ready && (
+				<Canvas
+					gl={{
+						antialias: false,
+						preserveDrawingBuffer: false,
+						powerPreference: 'high-performance',
+					}}
+					eventSource={baseCanvasContainerRef}
+					className="fixed! top-0 left-0 z-0 h-full w-full"
+				>
+					<View.Port />
+				</Canvas>
+			)}
 		</div>
 	);
 };
