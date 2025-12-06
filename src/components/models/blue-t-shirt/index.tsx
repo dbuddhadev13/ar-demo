@@ -7,6 +7,7 @@ import { useGLTF } from '@react-three/drei';
 import { JSX } from 'react';
 import * as THREE from 'three';
 import { GLTF } from 'three-stdlib';
+import { DancingGirlModel } from '../dancing-girl';
 
 type GLTFResult = GLTF & {
 	nodes: {
@@ -21,7 +22,12 @@ type GLTFResult = GLTF & {
 	};
 };
 
-export function BlueTshirtModel(props: JSX.IntrinsicElements['group']) {
+export function BlueTshirtModel({
+	showHidden,
+	...props
+}: JSX.IntrinsicElements['group'] & {
+	showHidden: boolean;
+}) {
 	const { nodes, materials } = useGLTF(
 		'/01_blue-t-shirt-opt.glb'
 	) as unknown as GLTFResult;
@@ -49,16 +55,9 @@ export function BlueTshirtModel(props: JSX.IntrinsicElements['group']) {
 						material={materials.shortsleeve}
 					/>
 				</group>
-				<mesh
-					name="clear-box"
-					castShadow
-					receiveShadow
-					geometry={nodes['clear-box'].geometry}
-					material={materials.transperant}
-					position={[0, 0, 0.163]}
-					rotation={[-Math.PI / 2, 0, 0]}
-					scale={0.025}
-				/>
+				{showHidden && (
+					<DancingGirlModel scale={0.25} position={[0.025, 0.125, 0.5]} />
+				)}
 			</group>
 		</group>
 	);

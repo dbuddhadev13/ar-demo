@@ -1,56 +1,41 @@
 // IphonePlane.tsx
 import { Box, Plane, useTexture } from '@react-three/drei';
-import { useThree } from '@react-three/fiber';
-import { forwardRef, useMemo, useRef, useImperativeHandle } from 'react';
-import { Mesh, Box3 } from 'three';
+import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
+import { Mesh } from 'three';
 
-export type IphonePlaneRef = {
-	getBoundingBox: () => Box3 | null;
-	mesh: Mesh | null;
-};
-const IphonePlane = forwardRef<IphonePlaneRef>((_, ref) => {
-	const boxRef = useRef<Mesh>(null);
-	const { viewport } = useThree();
+const IphonePlane = forwardRef<Mesh | null>((_props, ref) => {
 	const texture = useTexture('/iphone.png');
+	const boxRefLocal = useRef<Mesh>(null!);
 
 	const aspect = useMemo(() => texture.width / texture.height, [texture]);
 
 	const { width, height } = useMemo(() => {
-		console.log(viewport);
-		const h = viewport.height * 1.5;
+		const h = 9 * 1.5;
 		const w = h * aspect;
 		return { width: w, height: h };
-	}, [viewport, aspect]);
+	}, [aspect]);
 
-	const boxWidth = width / 2.75;
-	const boxHeight = height / 2;
-	const boxDepth = 5;
+	const boxHeight = height * 0.5;
+	const boxWidth = boxHeight * aspect;
 
-	// Expose functions/data through the forwarded ref
-	useImperativeHandle(ref, () => ({
-		getBoundingBox() {
-			if (!boxRef.current) return null;
-			const bbox = new Box3().setFromObject(boxRef.current);
-			return bbox;
-		},
-		mesh: boxRef.current, // optional: expose the mesh itself
-	}));
+	useImperativeHandle(ref, () => boxRefLocal.current, [boxRefLocal]);
 
 	return (
-		<group>
-			<Box
-				ref={boxRef}
-				args={[boxWidth, boxHeight, boxDepth]}
-				position={[0, 0, -2.5]}
-			>
-				<meshStandardMaterial color="white" transparent opacity={0} />
-			</Box>
-			<Plane args={[width, height]} position={[0, 0, 0]}>
+		<>
+			<Plane args={[width, height]} position={[0, 0, 5]}>
 				<meshStandardMaterial map={texture} transparent />
 			</Plane>
-		</group>
+			<Box
+				args={[boxWidth, boxHeight, 5]}
+				position={[0, 0, -3.1]}
+				ref={boxRefLocal}
+			>
+				<meshStandardMaterial color={'white'} transparent opacity={0} />
+			</Box>
+		</>
 	);
 });
 
 IphonePlane.displayName = 'IphonePlane';
+
 export default IphonePlane;

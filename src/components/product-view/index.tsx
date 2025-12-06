@@ -2,6 +2,7 @@
 import {
 	Bounds,
 	Environment,
+	PerspectiveCamera,
 	PresentationControls,
 	View,
 } from '@react-three/drei';
@@ -16,8 +17,13 @@ const ProductView: FunctionComponent<{
 	return (
 		<View index={viewIndex} className="h-full w-full" key={viewKey}>
 			<ambientLight />
+			<PerspectiveCamera
+				makeDefault
+				position={[0, 0, 20]}
+				rotation={[0, 0, 0]}
+			/>
 			<Environment preset="studio" />
-			<Bounds fit clip observe>
+			<Bounds fit clip observe margin={1.5}>
 				<PresentationControls snap={true}>{model}</PresentationControls>
 			</Bounds>
 		</View>

@@ -7,6 +7,7 @@ import { useGLTF } from '@react-three/drei';
 import { JSX } from 'react';
 import * as THREE from 'three';
 import { GLTF } from 'three-stdlib';
+import { FlairBoyModel } from '../flair-boy';
 
 type GLTFResult = GLTF & {
 	nodes: {
@@ -19,7 +20,12 @@ type GLTFResult = GLTF & {
 	};
 };
 
-export function PoloTshirtModel(props: JSX.IntrinsicElements['group']) {
+export function PoloTshirtModel({
+	showHidden,
+	...props
+}: JSX.IntrinsicElements['group'] & {
+	showHidden: boolean;
+}) {
 	const { nodes, materials } = useGLTF(
 		'/02_polo-t-shirt-opt.glb'
 	) as unknown as GLTFResult;
@@ -28,7 +34,7 @@ export function PoloTshirtModel(props: JSX.IntrinsicElements['group']) {
 			<group>
 				<group
 					name="t-shirt-02"
-					position={[0, 0.026, -0.013]}
+					position={[0, 0, 0]}
 					rotation={[-Math.PI / 2, 0, 0]}
 					scale={0.025}
 				>
@@ -48,6 +54,9 @@ export function PoloTshirtModel(props: JSX.IntrinsicElements['group']) {
 					/>
 				</group>
 			</group>
+			{showHidden && (
+				<FlairBoyModel scale={0.25} position={[0.025, 0.125, 0.5]} />
+			)}
 		</group>
 	);
 }

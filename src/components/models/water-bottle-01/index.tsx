@@ -7,6 +7,7 @@ import { useGLTF } from '@react-three/drei';
 import { JSX } from 'react';
 import * as THREE from 'three';
 import { GLTF } from 'three-stdlib';
+import { JumpingSportBoyModel } from '../jumping-sport-boy';
 
 type GLTFResult = GLTF & {
 	nodes: {
@@ -19,7 +20,12 @@ type GLTFResult = GLTF & {
 	};
 };
 
-export function WaterBottle01Model(props: JSX.IntrinsicElements['group']) {
+export function WaterBottle01Model({
+	showHidden,
+	...props
+}: JSX.IntrinsicElements['group'] & {
+	showHidden: boolean;
+}) {
 	const { nodes, materials } = useGLTF(
 		'/03_water bottle-01-opt.glb'
 	) as unknown as GLTFResult;
@@ -47,6 +53,9 @@ export function WaterBottle01Model(props: JSX.IntrinsicElements['group']) {
 					scale={0.025}
 				/>
 			</group>
+			{showHidden && (
+				<JumpingSportBoyModel scale={0.25} position={[0.025, 0.125, 0.5]} />
+			)}
 		</group>
 	);
 }
