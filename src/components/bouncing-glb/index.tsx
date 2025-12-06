@@ -1,4 +1,3 @@
-import { Gltf } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { BallCollider, RapierRigidBody, RigidBody } from '@react-three/rapier';
 import { ReactNode, RefObject, useRef, useState } from 'react';
