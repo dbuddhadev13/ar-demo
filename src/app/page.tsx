@@ -13,7 +13,6 @@ import { WaterBottle01Model } from '@/components/models/water-bottle-01';
 import { WaterBottle02Model } from '@/components/models/water-bottle-02';
 import ProductView from '@/components/product-view';
 import RigidBodyModel from '@/components/rigid-body-model';
-import { useRemountOnResize } from '@/components/use-remount-on-resize';
 import { generateRandomPositionVectors } from '@/helpers/random-position-generator';
 import { Environment, PerspectiveCamera, View } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
@@ -24,7 +23,6 @@ import { Mesh } from 'three';
 
 const Homepage = () => {
 	const baseCanvasContainerRef = useRef<HTMLDivElement>(null!);
-	const view0Key = useRemountOnResize();
 	const iphoneBoxRef = useRef<Mesh | null>(null);
 	const [randomPositions] = useState(generateRandomPositionVectors(4, 1.5));
 
@@ -34,7 +32,7 @@ const Homepage = () => {
 			ref={baseCanvasContainerRef}
 		>
 			<div className="h-[90dvh] w-full">
-				<View index={0} className="h-full w-full" key={view0Key}>
+				<View index={0} className="h-full w-full">
 					<ambientLight />
 					<PerspectiveCamera makeDefault position={[0, 0, 30]} />
 					<Environment preset="studio" />
