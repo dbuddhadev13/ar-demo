@@ -20,7 +20,7 @@ const RootLayout = ({
 	return (
 		<html lang="en">
 			<body className={`${poppins.variable} antialiased`}>
-				<main className="h-full min-h-dvh w-full min-w-dvh">{children}</main>
+				<main className="h-full min-h-dvh w-full min-w-dvw">{children}</main>
 			</body>
 		</html>
 	);

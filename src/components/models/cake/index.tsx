@@ -38,12 +38,7 @@ export function CakeModel(props: JSX.IntrinsicElements['group']) {
 	return (
 		<group {...props} dispose={null}>
 			<group>
-				<group
-					name="cake-01"
-					position={[0, 0, 0.181]}
-					rotation={[-Math.PI / 2, 0, 0]}
-					scale={0.025}
-				>
+				<group name="cake-01" rotation={[-Math.PI / 2, 0, 0]} scale={0.025}>
 					<mesh
 						name="cake-01_1"
 						castShadow
@@ -94,16 +89,6 @@ export function CakeModel(props: JSX.IntrinsicElements['group']) {
 						material={materials.stick}
 					/>
 				</group>
-				<mesh
-					name="clear-box"
-					castShadow
-					receiveShadow
-					geometry={nodes['clear-box'].geometry}
-					material={materials.transperant}
-					position={[0, 0, 0.163]}
-					rotation={[-Math.PI / 2, 0, 0]}
-					scale={0.025}
-				/>
 			</group>
 		</group>
 	);

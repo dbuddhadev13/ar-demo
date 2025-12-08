@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { Box3, Group, Mesh, Vector3 } from 'three';
 
-const CONSTANT_SPEED = 5.5;
+const CONSTANT_SPEED = 3.5;
 
 const tmpBB1 = new Box3();
 const tmpBB2 = new Box3();
@@ -27,8 +27,8 @@ const RigidBodyModel: FunctionComponent<{
 	const [showHidden, setShowHidden] = useState(false);
 
 	const [randomVelocity] = useState(() => ({
-		x: Math.random() * 10 - 5,
-		y: Math.random() * 10 - 5,
+		x: Math.random() * 2.5 - 1.25,
+		y: Math.random() * 2.5 - 1.25,
 		z: 0,
 	}));
 	const [randomPosition] = useState(() => ({

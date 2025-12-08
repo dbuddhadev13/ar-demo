@@ -38,17 +38,6 @@ export function WaterBottle01Model({
 					receiveShadow
 					geometry={nodes['water-bottle-01'].geometry}
 					material={materials.water_bottle}
-					position={[0, 0.076, 0]}
-					rotation={[-Math.PI / 2, 0, 0]}
-					scale={0.025}
-				/>
-				<mesh
-					name="clear-box"
-					castShadow
-					receiveShadow
-					geometry={nodes['clear-box'].geometry}
-					material={materials.transperant}
-					position={[0, 0, 0.163]}
 					rotation={[-Math.PI / 2, 0, 0]}
 					scale={0.025}
 				/>

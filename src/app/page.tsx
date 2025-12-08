@@ -6,15 +6,19 @@ import { BlueTshirtModel } from '@/components/models/blue-t-shirt';
 import { CakeModel } from '@/components/models/cake';
 import { CoffeeCup02Model } from '@/components/models/coffee-cup-02';
 import { CoffeeMug01Model } from '@/components/models/coffee-mug-01';
-import { CoffeeMug02Model } from '@/components/models/coffee-mug-02';
 import { PlateWithScreenModel } from '@/components/models/plate';
 import { PoloTshirtModel } from '@/components/models/polo-t-shirt';
 import { WaterBottle01Model } from '@/components/models/water-bottle-01';
-import { WaterBottle02Model } from '@/components/models/water-bottle-02';
 import ProductView from '@/components/product-view';
 import RigidBodyModel from '@/components/rigid-body-model';
 import { generateRandomPositionVectors } from '@/helpers/random-position-generator';
-import { Environment, PerspectiveCamera, View } from '@react-three/drei';
+import {
+	Bounds,
+	Environment,
+	OrbitControls,
+	PerspectiveCamera,
+	View,
+} from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { CuboidCollider, Physics } from '@react-three/rapier';
 import { useRef, useState } from 'react';
@@ -24,7 +28,7 @@ import { Mesh } from 'three';
 const Homepage = () => {
 	const baseCanvasContainerRef = useRef<HTMLDivElement>(null!);
 	const iphoneBoxRef = useRef<Mesh | null>(null);
-	const [randomPositions] = useState(generateRandomPositionVectors(4, 1.5));
+	const [randomPositions] = useState(generateRandomPositionVectors(4, 4.5));
 
 	return (
 		<div
@@ -34,15 +38,17 @@ const Homepage = () => {
 			<div className="h-[90dvh] w-full">
 				<View index={0} className="h-full w-full">
 					<ambientLight />
-					<PerspectiveCamera makeDefault position={[0, 0, 30]} />
+					<PerspectiveCamera makeDefault position={[0, 0, 20]} />
 					<Environment preset="studio" />
-					<IphonePlane ref={iphoneBoxRef} />
+					<Bounds fit clip observe margin={0.7}>
+						<IphonePlane ref={iphoneBoxRef} boxPosition={[-2.25, 0.25, -5]} />
+					</Bounds>
 					<Physics gravity={[0, 0, 0]}>
 						<RigidBodyModel
 							iphoneBoxRef={iphoneBoxRef}
 							Model={({ showHidden }) => (
 								<PlateWithScreenModel
-									scale={5}
+									scale={8}
 									showHidden={showHidden}
 									position={[randomPositions[0].x, randomPositions[0].y, -1]}
 								/>
@@ -52,7 +58,7 @@ const Homepage = () => {
 							iphoneBoxRef={iphoneBoxRef}
 							Model={({ showHidden }) => (
 								<BlueTshirtModel
-									scale={7}
+									scale={10}
 									showHidden={showHidden}
 									position={[
 										randomPositions[1].x,
@@ -66,7 +72,7 @@ const Homepage = () => {
 							iphoneBoxRef={iphoneBoxRef}
 							Model={({ showHidden }) => (
 								<PoloTshirtModel
-									scale={7}
+									scale={12}
 									showHidden={showHidden}
 									position={[
 										randomPositions[2].x,
@@ -80,7 +86,7 @@ const Homepage = () => {
 							iphoneBoxRef={iphoneBoxRef}
 							Model={({ showHidden }) => (
 								<WaterBottle01Model
-									scale={7}
+									scale={12}
 									showHidden={showHidden}
 									position={[
 										randomPositions[3].x,
@@ -119,8 +125,8 @@ const Homepage = () => {
 				</View>
 			</div>
 			<div className="flex h-fit w-full items-center justify-center">
-				<div className="grid h-full w-[calc(95dvw)] grid-cols-1 gap-8 lg:grid-cols-3">
-					<div className="relative aspect-square w-full rounded-md bg-linear-to-br from-[#66d1ff] to-[#1b4f9f] lg:rounded-lg">
+				<div className="grid h-full w-[calc(95dvw)] grid-cols-2 gap-8 lg:grid-cols-3">
+					{/* <div className="relative aspect-square w-full rounded-md bg-linear-to-br from-[#66d1ff] to-[#1b4f9f] lg:rounded-lg">
 						<ProductView
 							viewIndex={1}
 							model={<BlueTshirtModel showHidden={false} />}
@@ -166,10 +172,14 @@ const Homepage = () => {
 								viewBox={`0 0 256 256`}
 							/>
 						</div>
-					</div>
+					</div> */}
 
 					<div className="relative aspect-square w-full rounded-md bg-linear-to-br from-[#9b8cff] to-[#36258a] lg:rounded-lg">
-						<ProductView viewIndex={4} model={<WaterBottle02Model />} />
+						<ProductView
+							viewIndex={4}
+							model={<CoffeeMug01Model />}
+							margin={1.4}
+						/>
 						<div className="absolute right-0 bottom-0 z-10 flex aspect-square w-1/5 items-center justify-center overflow-hidden rounded-tl-lg bg-black">
 							<QRCode
 								value={'/polo-tshirt'}
@@ -182,7 +192,11 @@ const Homepage = () => {
 					</div>
 
 					<div className="relative aspect-square w-full rounded-md bg-linear-to-br from-[#5ef7c5] to-[#047b61] lg:rounded-lg">
-						<ProductView viewIndex={5} model={<CoffeeMug01Model />} />
+						<ProductView
+							margin={1.1}
+							viewIndex={5}
+							model={<BlueTshirtModel showHidden={false} />}
+						/>
 						<div className="absolute right-0 bottom-0 z-10 flex aspect-square w-1/5 items-center justify-center overflow-hidden rounded-tl-lg bg-black">
 							<QRCode
 								value={'/polo-tshirt'}
@@ -195,7 +209,11 @@ const Homepage = () => {
 					</div>
 
 					<div className="relative aspect-square w-full rounded-md bg-linear-to-br from-[#7ac9ff] to-[#205fa5] lg:rounded-lg">
-						<ProductView viewIndex={6} model={<CoffeeMug02Model />} />
+						<ProductView
+							viewIndex={6}
+							margin={1.2}
+							model={<WaterBottle01Model showHidden={false} />}
+						/>
 						<div className="absolute right-0 bottom-0 z-10 flex aspect-square w-1/5 items-center justify-center overflow-hidden rounded-tl-lg bg-black">
 							<QRCode
 								value={'/polo-tshirt'}
@@ -208,7 +226,7 @@ const Homepage = () => {
 					</div>
 
 					<div className="relative aspect-square w-full rounded-md bg-linear-to-br from-[#ff9e6b] to-[#c44500] lg:rounded-lg">
-						<ProductView viewIndex={7} model={<CoffeeCup02Model />} />
+						<ProductView viewIndex={7} model={<CakeModel />} margin={1.25} />
 						<div className="absolute right-0 bottom-0 z-10 flex aspect-square w-1/5 items-center justify-center overflow-hidden rounded-tl-lg bg-black">
 							<QRCode
 								value={'/polo-tshirt'}
@@ -221,7 +239,11 @@ const Homepage = () => {
 					</div>
 
 					<div className="relative aspect-square w-full rounded-md bg-linear-to-br from-[#ff4f4f] to-[#8a0e1a] lg:rounded-lg">
-						<ProductView viewIndex={8} model={<PlateWithScreenModel />} />
+						<ProductView
+							viewIndex={8}
+							model={<CoffeeCup02Model />}
+							margin={1.25}
+						/>
 						<div className="absolute right-0 bottom-0 z-10 flex aspect-square w-1/5 items-center justify-center overflow-hidden rounded-tl-lg bg-black">
 							<QRCode
 								value={'/polo-tshirt'}
@@ -234,7 +256,11 @@ const Homepage = () => {
 					</div>
 
 					<div className="relative aspect-square w-full rounded-md bg-linear-to-br from-[#c8ff5a] to-[#3b7d00] lg:rounded-lg">
-						<ProductView viewIndex={9} model={<CakeModel />} />
+						<ProductView
+							viewIndex={9}
+							model={<PlateWithScreenModel />}
+							margin={1.25}
+						/>
 						<div className="absolute right-0 bottom-0 z-10 flex aspect-square w-1/5 items-center justify-center overflow-hidden rounded-tl-lg bg-black">
 							<QRCode
 								value={'/polo-tshirt'}

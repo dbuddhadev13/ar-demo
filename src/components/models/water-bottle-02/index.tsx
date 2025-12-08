@@ -70,16 +70,6 @@ export function WaterBottle02Model(props: JSX.IntrinsicElements['group']) {
 					/>
 				</group>
 				<mesh
-					name="clear-box"
-					castShadow
-					receiveShadow
-					geometry={nodes['clear-box'].geometry}
-					material={materials.transperant}
-					position={[0, 0, 0.163]}
-					rotation={[-Math.PI / 2, 0, 0]}
-					scale={0.025}
-				/>
-				<mesh
 					name="water-bottel-02-sticker"
 					castShadow
 					receiveShadow

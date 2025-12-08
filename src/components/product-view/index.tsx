@@ -7,11 +7,13 @@ import {
 	View,
 } from '@react-three/drei';
 import { FunctionComponent, ReactNode } from 'react';
+import CenteredOrigin from '../centered-origin';
 
 const ProductView: FunctionComponent<{
 	viewIndex: number;
 	model: ReactNode;
-}> = ({ model, viewIndex }) => {
+	margin?: number;
+}> = ({ model, viewIndex, margin = 1 }) => {
 	return (
 		<View index={viewIndex} className="h-full w-full">
 			<ambientLight />
@@ -21,8 +23,10 @@ const ProductView: FunctionComponent<{
 				rotation={[0, 0, 0]}
 			/>
 			<Environment preset="studio" />
-			<Bounds fit clip observe margin={1.5}>
-				<PresentationControls snap={true}>{model}</PresentationControls>
+			<Bounds fit clip observe margin={margin}>
+				<PresentationControls snap={true}>
+					<CenteredOrigin>{model}</CenteredOrigin>
+				</PresentationControls>
 			</Bounds>
 		</View>
 	);

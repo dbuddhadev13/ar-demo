@@ -38,16 +38,6 @@ export function CoffeeMug02Model(props: JSX.IntrinsicElements['group']) {
 					scale={0.004}
 				/>
 				<mesh
-					name="clear-box"
-					castShadow
-					receiveShadow
-					geometry={nodes['clear-box'].geometry}
-					material={materials.transperant}
-					position={[0, 0, 0.163]}
-					rotation={[-Math.PI / 2, 0, 0]}
-					scale={0.025}
-				/>
-				<mesh
 					name="coffee-mug-02-photo-sticker"
 					castShadow
 					receiveShadow
