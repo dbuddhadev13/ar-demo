@@ -19,8 +19,10 @@ const RootLayout = ({
 }>) => {
 	return (
 		<html lang="en">
-			<body className={`${poppins.variable} antialiased`}>
-				<main className="h-full min-h-dvh w-full min-w-dvw">{children}</main>
+			<body className={`${poppins.variable} overflow-x-hidden! antialiased`}>
+				<main className="h-fit min-h-dvh w-fit min-w-dvw overflow-x-hidden!">
+					{children}
+				</main>
 			</body>
 		</html>
 	);
