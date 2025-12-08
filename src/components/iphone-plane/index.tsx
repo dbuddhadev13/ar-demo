@@ -42,7 +42,7 @@ const IphonePlane = forwardRef<
 					rotation={boxRotation}
 					ref={boxRefLocal}
 				>
-					<meshStandardMaterial color={'white'} transparent opacity={0.25} />
+					<meshStandardMaterial color={'white'} transparent opacity={0} />
 				</Box>
 			</group>
 		);
