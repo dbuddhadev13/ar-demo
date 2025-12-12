@@ -65,8 +65,10 @@ export function PlateWithScreenModel({
 		'/plate-with-plane.glb'
 	) as unknown as GLTFResult;
 
+	console.log(showHidden,"showhidden");
+	
 	return (
-		<group {...props} dispose={null}>
+		<group {...props} dispose={null} position={[0,0.3,0]}>
 			<group name="Scene">
 				<mesh
 					name="plate"
@@ -88,7 +90,7 @@ export function PlateWithScreenModel({
 					scale={0.025}
 				/>
 				{showHidden && (
-					<Plane args={[0.5, 0.5]} position={[0, 0, 0.1]}>
+					<Plane args={[0.5, 0.5]} position={[0, 0.01, 0.26]}>
 						<shaderMaterial
 							vertexShader={vertexShader}
 							fragmentShader={fragmentShader}

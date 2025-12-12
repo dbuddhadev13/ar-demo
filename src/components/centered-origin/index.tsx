@@ -8,7 +8,7 @@ const CenteredOrigin = ({ children }: { children: React.ReactNode }) => {
 	useEffect(() => {
 		if (!ref.current) return;
 
-
+		// compute bounding box
 		const box = new THREE.Box3().setFromObject(ref.current);
 		const center = new THREE.Vector3();
 		box.getCenter(center);

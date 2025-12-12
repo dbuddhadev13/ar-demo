@@ -30,7 +30,7 @@ export function PoloTshirtModel({
 		'/02_polo-t-shirt-opt.glb'
 	) as unknown as GLTFResult;
 	return (
-		<group {...props} dispose={null}>
+		<group {...props} dispose={null} castShadow receiveShadow>
 			<group>
 				<group
 					name="t-shirt-02"

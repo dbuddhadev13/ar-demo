@@ -32,11 +32,11 @@ export function BlueTshirtModel({
 		'/01_blue-t-shirt-opt.glb'
 	) as unknown as GLTFResult;
 	return (
-		<group {...props} dispose={null}>
+		<group {...props} dispose={null} castShadow receiveShadow>
 			<group>
 				<group
 					name="blue-t-shirt-01"
-					position={[0, 0.047, 0]}
+					position={[0, 0, 0]}
 					rotation={[-Math.PI / 2, 0, 0]}
 					scale={0.025}
 				>

@@ -7,173 +7,79 @@ import { CakeModel } from '@/components/models/cake';
 import { CoffeeCup02Model } from '@/components/models/coffee-cup-02';
 import { CoffeeMug01Model } from '@/components/models/coffee-mug-01';
 import { PlateWithScreenModel } from '@/components/models/plate';
-import { PoloTshirtModel } from '@/components/models/polo-t-shirt';
 import { WaterBottle01Model } from '@/components/models/water-bottle-01';
 import ProductView from '@/components/product-view';
-import RigidBodyModel from '@/components/rigid-body-model';
-import { generateRandomPositionVectors } from '@/helpers/random-position-generator';
 import {
 	Bounds,
 	Environment,
 	OrbitControls,
 	PerspectiveCamera,
 	View,
+	MeshReflectorMaterial,
 } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { CuboidCollider, Physics } from '@react-three/rapier';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import QRCode from 'react-qr-code';
 import { Mesh } from 'three';
+import CarouselItem from '@/components/carousel-item';
 
 const Homepage = () => {
 	const baseCanvasContainerRef = useRef<HTMLDivElement>(null!);
-	const iphoneBoxRef = useRef<Mesh | null>(null);
-	const [randomPositions] = useState(generateRandomPositionVectors(4, 4.5));
-
+	const iphoneBoxRef = useRef<Mesh>(null!);
 	return (
+		<div className='h-full w-full overflow-hidden box-border'>
 		<div
-			className="flex h-full w-full flex-col gap-10 p-10"
+			className="flex h-full w-full flex-col gap-10 p-0 overflow-hidden"
 			ref={baseCanvasContainerRef}
+			style={{ touchAction: 'pan-y' }}
 		>
 			<div className="h-[90dvh] w-full">
 				<View index={0} className="h-full w-full">
-					<ambientLight />
+					<fog attach="fog" args={['#17171b', 20, 50]} />
+					<color attach="background" args={['#17171b']} />
+					<ambientLight intensity={0.7} />
+					<directionalLight
+						castShadow
+						intensity={2.5}
+						position={[0, 10, 6]}
+						shadow-mapSize={[1024, 1024]}
+					>
+						<orthographicCamera
+							attach="shadow-camera"
+							left={-20}
+							right={20}
+							top={20}
+							bottom={-20}
+						/>
+					</directionalLight>
 					<PerspectiveCamera makeDefault position={[0, 0, 20]} />
-					<Environment preset="studio" />
-					<Bounds fit clip observe margin={0.7}>
-						<IphonePlane ref={iphoneBoxRef} boxPosition={[-2.25, 0.25, -5]} />
+					<mesh position={[0, -6, -10]} rotation={[-Math.PI / 2, 0, 0]}>
+						<planeGeometry args={[100, 100]} />
+						<MeshReflectorMaterial
+							blur={[60, 30]}
+							resolution={1024}
+							mixBlur={2}
+							mixStrength={6}
+							depthScale={1}
+							minDepthThreshold={0.05}
+							maxDepthThreshold={1.0}
+							color="#151515"
+							metalness={0.6}
+							roughness={1}
+						/>
+					</mesh>
+					<Environment preset="dawn" />
+					<Bounds fit clip observe margin={1.1}>
+						<IphonePlane ref={iphoneBoxRef} />
 					</Bounds>
-					<Physics gravity={[0, 0, 0]}>
-						<RigidBodyModel
-							iphoneBoxRef={iphoneBoxRef}
-							Model={({ showHidden }) => (
-								<PlateWithScreenModel
-									scale={8}
-									showHidden={showHidden}
-									position={[randomPositions[0].x, randomPositions[0].y, -1]}
-								/>
-							)}
-						/>
-						<RigidBodyModel
-							iphoneBoxRef={iphoneBoxRef}
-							Model={({ showHidden }) => (
-								<BlueTshirtModel
-									scale={10}
-									showHidden={showHidden}
-									position={[
-										randomPositions[1].x,
-										randomPositions[1].y,
-										randomPositions[1].z,
-									]}
-								/>
-							)}
-						/>
-						<RigidBodyModel
-							iphoneBoxRef={iphoneBoxRef}
-							Model={({ showHidden }) => (
-								<PoloTshirtModel
-									scale={12}
-									showHidden={showHidden}
-									position={[
-										randomPositions[2].x,
-										randomPositions[2].y,
-										randomPositions[2].z,
-									]}
-								/>
-							)}
-						/>
-						<RigidBodyModel
-							iphoneBoxRef={iphoneBoxRef}
-							Model={({ showHidden }) => (
-								<WaterBottle01Model
-									scale={12}
-									showHidden={showHidden}
-									position={[
-										randomPositions[3].x,
-										randomPositions[3].y,
-										randomPositions[3].z,
-									]}
-								/>
-							)}
-						/>
-						<CuboidCollider
-							activeCollisionTypes={52224}
-							friction={0}
-							restitution={1}
-							args={[20, 1, 10]}
-							position={[0, 15, 0]}
-						/>
-						<CuboidCollider
-							friction={0}
-							restitution={1}
-							args={[20, 1, 10]}
-							position={[0, -15, 0]}
-						/>
-						<CuboidCollider
-							friction={0}
-							restitution={1}
-							args={[1, 20, 10]}
-							position={[20, 0, 0]}
-						/>
-						<CuboidCollider
-							friction={0}
-							restitution={1}
-							args={[1, 20, 10]}
-							position={[-20, 0, 0]}
-						/>
-					</Physics>
+					{/* <directionalLight position={[5, 3, 7.5]} intensity={1.5} /> */}
+
+					<CarouselItem radius={15} anchorZ={3} iphoneBoxRef={iphoneBoxRef} />
+					{/* <OrbitControls /> */}
 				</View>
 			</div>
 			<div className="flex h-fit w-full items-center justify-center">
 				<div className="grid h-full w-[calc(95dvw)] grid-cols-2 gap-8 lg:grid-cols-3">
-					{/* <div className="relative aspect-square w-full rounded-md bg-linear-to-br from-[#66d1ff] to-[#1b4f9f] lg:rounded-lg">
-						<ProductView
-							viewIndex={1}
-							model={<BlueTshirtModel showHidden={false} />}
-						/>
-						<div className="absolute right-0 bottom-0 z-10 flex aspect-square w-1/5 items-center justify-center overflow-hidden rounded-tl-lg bg-black">
-							<QRCode
-								value={'/polo-tshirt'}
-								className="h-[90%] w-[90%] rounded-none"
-								bgColor="black"
-								fgColor="white"
-								viewBox={`0 0 256 256`}
-							/>
-						</div>
-					</div>
-
-					<div className="relative aspect-square w-full rounded-md bg-linear-to-br from-[#ff7aa0] to-[#8b1049] lg:rounded-lg">
-						<ProductView
-							viewIndex={2}
-							model={<PoloTshirtModel showHidden={false} />}
-						/>
-						<div className="absolute right-0 bottom-0 z-10 flex aspect-square w-1/5 items-center justify-center overflow-hidden rounded-tl-lg bg-black">
-							<QRCode
-								value={'/polo-tshirt'}
-								className="h-[90%] w-[90%] rounded-none"
-								bgColor="black"
-								fgColor="white"
-								viewBox={`0 0 256 256`}
-							/>
-						</div>
-					</div>
-
-					<div className="relative aspect-square w-full rounded-md bg-linear-to-br from-[#ffd66b] to-[#b67b0a] lg:rounded-lg">
-						<ProductView
-							viewIndex={3}
-							model={<WaterBottle01Model showHidden={false} />}
-						/>
-						<div className="absolute right-0 bottom-0 z-10 flex aspect-square w-1/5 items-center justify-center overflow-hidden rounded-tl-lg bg-black">
-							<QRCode
-								value={'/polo-tshirt'}
-								className="h-[90%] w-[90%] rounded-none"
-								bgColor="black"
-								fgColor="white"
-								viewBox={`0 0 256 256`}
-							/>
-						</div>
-					</div> */}
-
 					<div className="relative aspect-square w-full rounded-md bg-linear-to-br from-[#9b8cff] to-[#36258a] lg:rounded-lg">
 						<ProductView
 							viewIndex={4}
@@ -285,6 +191,7 @@ const Homepage = () => {
 			>
 				<View.Port />
 			</Canvas>
+		</div>
 		</div>
 	);
 };

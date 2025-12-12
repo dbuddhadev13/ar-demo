@@ -30,7 +30,7 @@ export function WaterBottle01Model({
 		'/03_water bottle-01-opt.glb'
 	) as unknown as GLTFResult;
 	return (
-		<group {...props} dispose={null}>
+		<group {...props} dispose={null} castShadow receiveShadow>
 			<group>
 				<mesh
 					name="water-bottle-01"
